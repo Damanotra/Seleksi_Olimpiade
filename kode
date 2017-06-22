@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    //Pertama aku bikin variabelnya
+    int T, N, M, peringkat; //T=jumlah test case, N=peserta tiap test case nya, M=peserta yang diloloskan
+    int sesi1[T][N], sesi2[T][N], sesi3[T][N]; //ada 3 sesi, penilaian dimulai dari sesi 3, jika sesi 3 sama, baru dihitung sesi 2, dan seterusnya
+    string test[T], peserta[T][N];
+
+    //lalu aku minta masukan T lalu memulai pengulangan
+    cin>>T;
+    for(int i=0; i<T ; i++)
+    {
+        //lalu mulai meminta jumlah peserta dan jumlah yang diperbolehkan lolos
+        cin>>N>>M; 
+        cin>>test[i];
+        peringkat=1;
+
+        //kemudian lanjut minta data-datanya
+        for(int j=0; j<N; j++)
+        {
+            cin>>peserta[i][j]>>sesi1[i][j]>>sesi2[i][j]>>sesi3[i][j];
+        }
+        
+        //kemudian mulai mengolah data
+        for(int k=0; k<N; k++)
+        {
+            if (test[i]==peserta[i][k]) //pertama aku mencari peserta yang diinginkan soal
+            {
+                for(int p=0; p<N; p++) //setelah dapat aku mulai pengolahannya
+                {
+                    if(p!=k) //aku juga membuat pengecualian bahwa dia tidak akan disandingkan dengan dirinya sendiri
+                    {
+                        if (sesi3[i][k]<sesi3[i][p]) //menghitung banyaknya peserta di atasnya pada sesi 3
+                        {
+                            peringkat++;
+                        }
+                        if (sesi3[i][k]==sesi3[i][p])
+                        {
+                            if (sesi2[i][k]<sesi2[i][p])  //menghitung banyaknya peserta di atasnya pada sesi 2
+                            {
+                                peringkat++;
+                            }
+                            if (sesi2[i][k]==sesi2[i][p])
+                            {
+                                if (sesi1[i][k]<sesi1[i][p]) //menghitung banyaknya peserta di atasnya pada sesi 1
+                                {
+                                    peringkat++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (peringkat<=M) //pengecekan peringkat untuk lolos atau tidaknya
+        {
+            cout<<"YA";
+        }
+        else
+        {
+            cout<<"TIDAK";
+        }
+    }
+}
